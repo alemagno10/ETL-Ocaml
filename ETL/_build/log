@@ -1,0 +1,6 @@
+# dune init project ETL
+# OCAMLPARAM: unset
+# Shared cache: enabled-except-user-rules
+# Shared cache location: /home/vscode/.cache/dune/db
+# Workspace root: /home/vscode/ETL-Ocaml/ETL
+# Auto-detected concurrency: 12
