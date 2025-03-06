@@ -1,6 +1,6 @@
 (library
  (name csv_reader)
  (public_name ETL.csv_reader)
- (libraries csv)
+ (libraries csv ETL.types)
  (modules order_reader item_reader)
  ) 

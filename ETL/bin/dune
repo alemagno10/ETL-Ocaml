@@ -1,4 +1,4 @@
 (executable
  (public_name ETL)
  (name main)
- (libraries ETL.csv_reader))
+ (libraries ETL.csv_reader ETL.transformers ETL.types))

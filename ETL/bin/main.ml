@@ -1,22 +1,17 @@
-open Csv_reader
+open Csv_reader 
+open Item_reader
+open Transformers
 
 let () = print_endline "Hello, World!" ;;
-let filename1 = Sys.getcwd () ^ "/data/order.csv"
-let filename2 = Sys.getcwd () ^ "/data/order_item.csv" ;;
+let filename1 = Sys.getcwd () ^ "/data/order_item.csv" ;;
 
 let () =
-  let orders = Order_reader.read_order_csv filename1 in
-  Printf.printf "Number of orders: %d\n" (List.length orders);
-  (* List.iter (fun o ->
-    Printf.printf "ID: %d, Client: %d, Date: %s, Status: %s, Origin: %c\n"
-      o.id o.client_id o.order_date o.status o.origin)
-    orders
+  let items = read_item_csv filename1 in
+  (* let filtered = filter_by "Pending" ' ' orders in *)
+  let processed_amount = List.map item_amount_processing items in 
+  let p_a = group_by_order_id processed_amount in
 
-let () =
-  let items = Item_reader.read_item_csv filename2 in
   List.iter (fun o ->
-    Printf.printf "ID: %d, Product: %d, Quantity: %d, Price: %f, Tax: %f\n"
-      o.order_id o.product_id o.quantity o.price o.tax)
-      items *)
-
-
+    Printf.printf "OrderID: %d, Amount: %.2f, TaxAmount: %.2f\n"
+      o.order_id o.amount o.tax_amount)
+    p_a ;;
