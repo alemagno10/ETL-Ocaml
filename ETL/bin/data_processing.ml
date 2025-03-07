@@ -1,0 +1,60 @@
+open Types
+
+let group_by_order_id (comb: combined list) : combined list =
+  let grouped =
+    List.fold_left (fun (acc : (int * combined) list) (row: combined) ->
+      match row with 
+      | Joined {order; item} ->
+        match List.assoc_opt order.id acc with
+        | Some (Joined { order = _; item = prev_item }) -> 
+          let new_amount = prev_item.price +. item.price in 
+          let new_tax_amount = prev_item.tax +. item.tax in
+          let updated_item = Joined {
+            order;
+            item = { order_id = item.order_id ; product_id = 0 ; quantity = 0 ; price = new_amount ; tax = new_tax_amount}
+          } 
+          in
+          (order.id, updated_item) :: List.remove_assoc order.id acc
+        | None -> (order.id, row) :: acc
+    ) [] comb
+  in
+  List.map snd grouped  
+;;
+
+
+let filter_by (status: string) (origin: char) (orders: combined list): combined list = 
+  let default_status = "" in  
+  let default_origin = ' ' in  
+
+  List.filter (fun c ->
+    match c with 
+    | Joined {order; _} ->
+    (status = default_status || order.status = status) &&
+    (origin = default_origin || order.origin = origin)
+  ) orders ;; 
+  
+
+let items_amount_processing (comb: combined list) : combined list = 
+  List.map (fun c ->
+    match c with 
+    | Joined {order; item} ->
+    let amount =  (float_of_int item.quantity) *. item.price in
+    let tax_amount = (float_of_int item.quantity) *. item.price *. item.tax in
+    Joined {
+      order = order; 
+      item = {item with price = amount ; tax = tax_amount}; 
+    }
+  ) comb ;;
+
+
+let inner_join (items: item list) (orders: order list) : combined list =
+  let orders_tuples = List.map (fun o -> (o.id, o)) orders in
+  List.filter_map (fun (it: item) ->
+    match List.assoc_opt it.order_id orders_tuples with
+    | Some (o: order) -> 
+        Some (Joined {
+          order = o; 
+          item = it; 
+        })
+    | None -> None
+  ) items ;;

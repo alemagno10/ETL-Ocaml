@@ -6,12 +6,6 @@ type item = {
   tax: float;
 }
 
-type pro = {
-  order_id: int;
-  amount: float;
-  tax_amount: float;
-}
-
 type order = {
   id: int;
   client_id: int;
@@ -19,3 +13,14 @@ type order = {
   status: string;
   origin: char;
 }
+
+type combined = 
+  Joined of { order: order; item: item}
+
+type output = {
+  order_id: int;
+  amount: float;
+  tax_amount: float;
+}
+
+  

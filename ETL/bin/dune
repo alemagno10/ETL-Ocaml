@@ -1,4 +1,5 @@
 (executable
  (public_name ETL)
  (name main)
- (libraries ETL.csv_reader ETL.transformers ETL.types))
+ (libraries csv)
+ (modules main data_processing types item_reader order_reader save_output))
