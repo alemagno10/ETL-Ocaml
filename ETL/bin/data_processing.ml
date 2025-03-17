@@ -1,8 +1,11 @@
-open Types
+Open Types
 
+(** Groups a list of combined records by order ID, summing up prices and taxes.
+  @param comb A list of combined records.
+  @return A new list where each order ID appears only once, with summed item amounts and taxes. *)
 let group_by_order_id (comb: combined list) : combined list =
   let grouped =
-    List.fold_left (fun (acc : (int * combined) list) (row: combined) ->
+    List.fold_left (fun (acc: (int * combined) list) (row: combined) ->
       match row with 
       | Joined {order; item} ->
         match List.assoc_opt order.id acc with
@@ -21,7 +24,11 @@ let group_by_order_id (comb: combined list) : combined list =
   List.map snd grouped  
 ;;
 
-
+(** Filters a list of combined records based on order status and origin.
+  @param status The status to filter by (empty string means no filtering).
+  @param origin The origin character to filter by (' ' means no filtering).
+  @param orders A list of combined records.
+  @return A filtered list of combined records that match the given criteria. *)
 let filter_by (status: string) (origin: char) (orders: combined list): combined list = 
   let default_status = "" in  
   let default_origin = ' ' in  
@@ -33,7 +40,9 @@ let filter_by (status: string) (origin: char) (orders: combined list): combined 
     (origin = default_origin || order.origin = origin)
   ) orders ;; 
   
-
+(** Computes the total price and tax amount for each item in the combined list.
+  @param comb A list of combined records.
+  @return A new list where each item's price and tax are updated based on its quantity. *)
 let items_amount_processing (comb: combined list) : combined list = 
   List.map (fun c ->
     match c with 
@@ -46,7 +55,10 @@ let items_amount_processing (comb: combined list) : combined list =
     }
   ) comb ;;
 
-
+(** Performs an inner join between items and orders based on order ID.
+  @param items A list of item records.
+  @param orders A list of order records.
+  @return A list of combined records where each item is matched with its corresponding order. *)
 let inner_join (items: item list) (orders: order list) : combined list =
   let orders_tuples = List.map (fun o -> (o.id, o)) orders in
   List.filter_map (fun (it: item) ->
