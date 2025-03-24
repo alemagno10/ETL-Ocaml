@@ -2,7 +2,6 @@ open Item_reader
 open Order_reader
 open Data_processing
 open Save_output
-(* open Types *)
 
 let () =
   let filename1 = Sys.getcwd () ^ "/data/order_item.csv" in
@@ -15,20 +14,12 @@ let () =
   let filtered_combined_values = filter_by "" ' ' combined_values in
   let processed_amount = items_amount_processing filtered_combined_values in 
   let grouped_processed_amount = group_by_order_id processed_amount in
-
-  (* List.iter (fun c ->
-    match c with 
-    | Joined {order; item} ->
-    Printf.printf "OrderID: %d, ProductID: %d, Quantity: %d, Price: %.2f, Tax: %.2f, ID: %d, ClientID: %d, Date: %s, Status: %s, Origin: %c\n"
-    item.order_id item.product_id item.quantity item.price item.tax order.id order.client_id order.order_date order.status order.origin
-  ) grouped_processed_amount ;; *)
   
   let output = generate_output grouped_processed_amount in
   let output_filename = Sys.getcwd () ^ "/data/output.csv" in
-  to_csv output output_filename ;;
-
+  to_csv output output_filename ;
   
-  (* List.iter (fun o ->
-    Printf.printf "OrderID: %d, Amount: %.2f, TaxAmount: %.2f\n"
-      o.order_id o.amount o.tax_amount)
-    output  *) 
+  let median = median_by_month_and_year grouped_processed_amount in
+  let monthly_output = generate_monthly_output median in
+  let output_filename = Sys.getcwd () ^ "/data/monthly_output.csv" in
+  to_csv_monthly monthly_output output_filename ;;

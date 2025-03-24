@@ -23,4 +23,9 @@ type output = {
   tax_amount: float;
 }
 
+type monthly_output = {
+  amount: float;
+  date_of_order: string;
+  tax_amount: float;
+}
   
