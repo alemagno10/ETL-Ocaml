@@ -24,7 +24,11 @@ let group_by_order_id (comb: combined list) : combined list =
   List.map snd grouped  
 ;;
 
-let median_by_month_and_year (comb: combined list) : combined list =
+
+(** Groups a list of combined records by order_date, averaging prices and taxes.
+  @param comb A list of combined records.
+  @return A new list where each order order_date appears only once, with summed item amounts and taxes divided by the amount of orders. *)
+let mean_by_month_and_year (comb: combined list) : combined list =
   let grouped =
     List.fold_left (fun (acc: (string * combined) list) (row: combined) ->
       match row with
@@ -64,7 +68,7 @@ let filter_by (status: string) (origin: char) (orders: combined list): combined 
     (origin = default_origin || order.origin = origin)
   ) orders ;; 
   
-  
+
 (** Computes the total price and tax amount for each item in the combined list.
   @param comb A list of combined records.
   @return A new list where each item's price and tax are updated based on its quantity. *)

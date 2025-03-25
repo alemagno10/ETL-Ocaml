@@ -15,7 +15,7 @@ type order = {
 }
 
 type combined = 
-  Joined of { order: order; item: item}
+  Joined of { order: order; item: item }
 
 type output = {
   order_id: int;

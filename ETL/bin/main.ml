@@ -19,7 +19,7 @@ let () =
   let output_filename = Sys.getcwd () ^ "/data/output.csv" in
   to_csv output output_filename ;
   
-  let median = median_by_month_and_year grouped_processed_amount in
-  let monthly_output = generate_monthly_output median in
+  let mean = mean_by_month_and_year grouped_processed_amount in
+  let monthly_output = generate_monthly_output mean in
   let output_filename = Sys.getcwd () ^ "/data/monthly_output.csv" in
   to_csv_monthly monthly_output output_filename ;;
