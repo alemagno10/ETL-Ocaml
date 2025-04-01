@@ -1,5 +1,5 @@
 (executable
  (public_name ETL)
  (name main)
- (libraries csv)
- (modules main data_processing types item_reader order_reader save_output))
+ (libraries csv sqlite3)
+ (modules main data_processing types item_reader order_reader save_output sql))
