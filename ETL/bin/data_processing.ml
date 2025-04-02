@@ -35,12 +35,12 @@ let mean_by_month_and_year (comb: combined list) : combined list =
       | Joined {order; item} ->  
         let date = String.sub order.order_date 0 7 in 
         match List.assoc_opt date acc with
-        | Some (Joined { order = _; item = prev_item }) ->
+        | Some (Joined { order = prev_order; item = prev_item }) ->
           let amt = float_of_int item.quantity in  
           let new_amount = ((prev_item.price *. amt) +. item.price) /. (amt +. 1.0) in 
           let new_tax_amount = ((prev_item.tax *. amt) +. item.tax) /. (amt +. 1.0) in
           let updated_item = Joined {
-            order;
+            order = { prev_order with order_date = date };
             item = { order_id = item.order_id ; product_id = 0 ; quantity = item.quantity+1 ; price = new_amount ; tax = new_tax_amount }
           } 
           in
