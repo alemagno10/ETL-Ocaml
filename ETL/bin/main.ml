@@ -3,10 +3,13 @@ open Order_reader
 open Data_processing
 open Save_output
 open Sql
+open Data_download
 
 let () =
   let filename1 = Sys.getcwd () ^ "/data/order_item.csv" in
   let filename2 = Sys.getcwd () ^ "/data/order.csv" in
+
+  Lwt_main.run (download_files filename1 filename2);
   
   let items = read_item_csv filename1 in
   let orders = read_order_csv filename2 in
