@@ -1,56 +1,53 @@
-# Running a Dune OCaml Project
+# Executando um Projeto Dune OCaml
 
-## 1. Setting Up the Environment
+## 1. Configurando o Ambiente
 
-### Installing OPAM
+### Instalando OPAM
 
-OPAM (OCaml Package Manager) is required to manage OCaml installations and dependencies. Install it using:
+OPAM (OCaml Package Manager) é necessário para gerenciar instalações e dependências do OCaml. Instale-o usando:
 
 ```sh
 sudo apt update
 sudo apt install -y opam
 ```
 
-### Installing OCaml
+### Instalando OCaml
 
-Create a new OCaml switch with the desired version and load the environment:
+Crie um novo switch OCaml com a versão desejada e carregue o ambiente:
 
 ```sh
 opam switch create 5.2.0
 eval $(opam env)
+export PATH=$PATH:~/.opam/default/bin
 ```
 
-### Installing Dependencies
+### Instalando Dependências
 
-Ensure that all required dependencies are installed:
+Certifique-se de que todas as dependências necessárias estão instaladas:
 
 ```sh
 opam install csv sqlite3 lwt cohttp-lwt-unix lwt_ssl
 ```
 
-## 2. Building and Running the Project
+## 2. Construindo e Executando o Projeto
 
-### Building the Project
+### Construindo o Projeto
 
-Use Dune, the OCaml build system, to compile the project:
+Use o Dune, o sistema de build do OCaml, para compilar o projeto:
 
 ```sh
 dune build
 ```
 
-### Running the Project
+### Executando o Projeto
 
-Execute the main binary using:
+Execute o binário principal usando:
 
 ```sh
 dune exec bin/main.exe
 ```
 
----
-
-# Ocaml ETL
-
-## Alexandre Magno Maciel dos Santos
+# Relatório do Projeto Ocaml ETL
 
 ## 1. Introdução
 
